@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { Component } from 'react'
 
 export default class UpdateForm extends Component {
@@ -18,13 +17,24 @@ export default class UpdateForm extends Component {
         })
         
     }
-    handleSubmit=(e)=>{
+    handleSubmit= async (e)=>{
     e.preventDefault()
-    axios.put(`https://jsonplaceholder.typicode.com/posts/${this.state.postId}` , this.state)
-           .then(response=>{
-           console.log(response)
-           console.log(response.data)
-           })
+     const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${this.state.postId}` ,{
+        
+        method:'PUT',
+
+        body: JSON.stringify({
+            title:this.state.title,
+            body: this.state.body,
+            userId: this.state.userId
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+    
+    const json= await response.json()
+   console.log(json)
     }
     render() {
         const{userId,postId, title,body}= this.state;

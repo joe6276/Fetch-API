@@ -1,5 +1,4 @@
 
-import axios from 'axios'
 import React, { Component } from 'react'
 
 export default class DeleteRecord extends Component {
@@ -17,14 +16,12 @@ export default class DeleteRecord extends Component {
         })
         
     }
-    handleSubmit=(e)=>{
+    handleSubmit= async (e)=>{
     e.preventDefault()
-    axios.delete(`https://jsonplaceholder.typicode.com/posts/${this.state.id}`)
-           .then(response=>{
-           console.log(response)
-           })
+     const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${this.state.id}`,{method:'DELETE'})
+    const json = await response.json();
+    console.log(json);
     }
-
     render() {
         const {id}= this.state;
         

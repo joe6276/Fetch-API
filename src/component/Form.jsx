@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { Component } from 'react'
 
 export default class Form extends Component {
@@ -18,30 +17,45 @@ export default class Form extends Component {
      })
      
  }
- handleSubmit=(e)=>{
+ handleSubmit= async (e)=>{
  e.preventDefault()
- axios.post('https://jsonplaceholder.typicode.com/posts', this.state)
-        .then(response=>{
-        console.log(response)
-        })
+
+
+ const response = await fetch('https://jsonplaceholder.typicode.com/posts',{
+    
+    method: "POST",
+    body: JSON.stringify({
+        title:this.state.title,
+        body: this.state.body,
+        userId: this.state.userId
+    }),
+     
+    headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }
+}
+)
+const json =  await response.json()
+console.log(json)
+
  }
     render() {
         const{userId,title,body}= this.state;
         return (
             <div>
+<h1>Create a New post </h1>
+   <form onSubmit={this.handleSubmit}>
+         <div>
+            <label style={{ width:'100px', marginRight:'50px'}}>
+            User ID
+            </label>
+            <input
+            type="text"
+            name="userId"
+            value={userId}
+            onChange={this.handleChange}>
 
-                <h1>Create a New post </h1>
-                <form onSubmit={this.handleSubmit}>
-                    <div>
-                    <label style={{ width:'100px', marginRight:'50px'}}>
-                        User ID
-                        </label>
-                    <input
-                    type="text"
-                    name="userId"
-                    value={userId}
-                    onChange={this.handleChange}
-                    ></input>
+             </input>
                     </div>
                     <br/>
 
@@ -56,7 +70,7 @@ export default class Form extends Component {
                     onChange={this.handleChange}
                     ></input>
                     </div>
-<br/>
+                    <br/>
                     <div>
                     <label style={{ width:'50px', marginRight:'70px'}}>
                         Body

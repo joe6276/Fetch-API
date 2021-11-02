@@ -1,4 +1,4 @@
-import axios from 'axios';
+
 import React, { Component } from 'react'
 
 export default class Getapost extends Component {
@@ -17,16 +17,12 @@ export default class Getapost extends Component {
         })
         
     }
-    handleSubmit=(e)=>{
+    handleSubmit= async (e)=>{
     e.preventDefault()
-    axios.get(`https://jsonplaceholder.typicode.com/posts/${this.state.id}`)
-    .then(response=>{
-        this.setState({
-            post: response.data
-        })
-        console.log(response)
-    })
-        }
+     const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${this.state.id}`)
+    const json =await response.json()
+     console.log(json)
+}
 
     render() {
         const {id}= this.state;

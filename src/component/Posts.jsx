@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import axios  from 'axios'
-
 export default class posts extends Component {
 
 
@@ -15,24 +13,21 @@ export default class posts extends Component {
 
 
     componentDidMount(){
-        axios.get('https://jsonplaceholder.typicode.com/posts')
-        .then(response=>{
-            this.setState({
-                posts: response.data
-            })
-            console.log(response)
-        })
+
+        const getdata=async ()=>{
+        
+        const response =await fetch('https://jsonplaceholder.typicode.com/posts')
+        const json = await response.json()
+        this.setState({
+                 posts:json
+                })
+        console.log(json)
+
+        }
+       getdata()
     }
 
-    getAPost = (id) => {
-        axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`)
-            .then(response=>{
-                this.setState({
-                    post: response.data
-                })
-            console.log(response)
-        })
-    }
+
     render() {
    const {posts}= this.state;
 
@@ -42,7 +37,7 @@ export default class posts extends Component {
              {
                  posts.map(post=>
                     <div key={post.id}>
-                        <h2 onClick={() => this.getAPost(post.id)}>{post.title}</h2>
+                       <h2>{post.title}</h2>
                     </div>
                     )
              }
